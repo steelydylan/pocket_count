@@ -6,7 +6,7 @@ async function get_pocket_count(url) {
   return doc.querySelector('#cnt').innerHTML;
 }
 
-chrome.tabs.onActivated.addListener(() => {
+const updateCount = () => {
   chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, (tabs) => {
     const url = tabs[0].url;
     if(!url) {
@@ -16,4 +16,7 @@ chrome.tabs.onActivated.addListener(() => {
       chrome.browserAction.setBadgeText({text: data});
     });
   });
-});
+}
+
+chrome.tabs.onActivated.addListener(updateCount);
+chrome.tabs.onUpdated.addListener(updateCount);
